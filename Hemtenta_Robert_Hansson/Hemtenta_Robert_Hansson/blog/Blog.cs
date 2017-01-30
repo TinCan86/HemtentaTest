@@ -8,6 +8,8 @@ namespace HemtentaTdd2017.blog
 {
     public class Blog : IBlog
     {
+        // True om användaren är inloggad (behöver
+        // inte testas separat)
         public bool UserIsLoggedIn
         {
             get
@@ -16,21 +18,37 @@ namespace HemtentaTdd2017.blog
             }
         }
 
+        // Försöker logga in en användare. Man kan
+        // se om inloggningen lyckades på property
+        // UserIsLoggedIn.
+        // Kastar ett exception om User är null.
         public void LoginUser(User u)
         {
             throw new NotImplementedException();
         }
 
+        // Försöker logga ut en användare. Kastar
+        // exception om User är null.
         public void LogoutUser(User u)
         {
             throw new NotImplementedException();
         }
 
+        // För att publicera en sida måste Page vara
+        // ett giltigt Page-objekt och användaren
+        // måste vara inloggad.
+        // Returnerar true om det gick att publicera,
+        // false om publicering misslyckades och
+        // exception om Page har ett ogiltigt värde.
         public bool PublishPage(Page p)
         {
             throw new NotImplementedException();
         }
 
+        // För att skicka e-post måste användaren vara
+        // inloggad och alla parametrar ha giltiga värden.
+        // Returnerar 1 om det gick att skicka mailet,
+        // 0 annars.
         public int SendEmail(string address, string caption, string body)
         {
             throw new NotImplementedException();
