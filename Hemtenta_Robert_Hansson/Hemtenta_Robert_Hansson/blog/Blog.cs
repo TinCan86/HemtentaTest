@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HemtentaTdd2017.blog
 {
@@ -13,12 +9,9 @@ namespace HemtentaTdd2017.blog
 
         public Blog(IAuthenticator auth)
         {
-
             this.auth = auth;
         }
 
-        // True om användaren är inloggad (behöver
-        // inte testas separat)
         public bool UserIsLoggedIn
         {
             get
@@ -27,11 +20,7 @@ namespace HemtentaTdd2017.blog
                 return user != null;
             }
         }
-
-        // Försöker logga in en användare. Man kan
-        // se om inloggningen lyckades på property
-        // UserIsLoggedIn.
-        // Kastar ett exception om User är null.
+       
         public void LoginUser(User u)
         {
             //om user är Null, så kastar vi ett exception
@@ -40,15 +29,17 @@ namespace HemtentaTdd2017.blog
                 throw new Exception();
 
             }
+           
+            var databaseUser = auth.GetUserFromDatabase(u.Name);
 
-            //Annars sätter vi user till u.
-            user = u;
+            this.user = databaseUser;
+                     
         }
-
-        // Försöker logga ut en användare. Kastar
-        // exception om User är null.
+      
         public void LogoutUser(User u)
         {
+            // Försöker logga ut en användare. Kastar
+            // exception om User är null.
             if (u == null)
             {
                 throw new Exception();
@@ -70,14 +61,15 @@ namespace HemtentaTdd2017.blog
                 throw new Exception();
             }
            
-            if (user != null)
+
+            if (!UserIsLoggedIn)
             {
                 //todo publish:
 
-                return true;
+                return false;
             }
 
-            return false;
+            return true;
         }
 
         // För att skicka e-post måste användaren vara
@@ -85,8 +77,19 @@ namespace HemtentaTdd2017.blog
         // Returnerar 1 om det gick att skicka mailet,
         // 0 annars.
         public int SendEmail(string address, string caption, string body)
-        {
-            throw new NotImplementedException();
+        {         
+            if (user != null)
+            {
+                //todo publish:
+                if (string.IsNullOrEmpty(address) || string.IsNullOrEmpty(caption) || string.IsNullOrEmpty(body))
+                {
+                    return 0;
+                }
+
+                return 1;
+            }
+
+            return 0;            
         }
     }
 }

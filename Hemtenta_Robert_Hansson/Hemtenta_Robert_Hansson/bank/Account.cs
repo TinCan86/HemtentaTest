@@ -1,41 +1,84 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HemtentaTdd2017.bank
+﻿namespace HemtentaTdd2017.bank
 {
-    // Representerar ett konto. Implementera den här!
-    // Obs: i vanliga fall ska datatypen decimal användas
-    // i stället för double när man hanterar pengar.
-    public class Account : IAccount
-    {
-        // behöver inte testas
-        public double Amount
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+	// Representerar ett konto. Implementera den här!
+	// Obs: i vanliga fall ska datatypen decimal användas
+	// i stället för double när man hanterar pengar.
+	public class Account : IAccount
+	{
+		double _amount;
+		IAccount _it;
 
-        // Sätter in ett belopp på kontot
-        public void Deposit(double amount)
-        {
-            throw new NotImplementedException();
-        }
+		public Account(IAccount it)
+		{
+			_it = it;
+		}
+		// behöver inte testas
+		public double Amount
+		{
+			get
+			{
+				return _amount;
+			}
+		}
 
-        // Överför ett belopp från ett konto till ett annat
-        public void TransferFunds(IAccount destination, double amount)
-        {
-            throw new NotImplementedException();
-        }
+		// Sätter in ett belopp på kontot
+		public void Deposit(double amount)
+		{
+			//Deposit amountet blir samma som amount.   
+			if(amount <= 0)
+			{
+				throw new InsufficientFundsException();
+			}
 
-        // Gör ett uttag från kontot
-        public void Withdraw(double amount)
-        {
-            throw new NotImplementedException();
-        }
-    }
+			if (double.IsNaN(amount) || double.IsNegativeInfinity(amount) || double.IsPositiveInfinity(amount))
+			{
+				throw new IllegalAmountException();
+			}
+
+			_amount = amount;
+		}
+
+		// Överför ett belopp från ett konto till ett annat
+		public void TransferFunds(IAccount destination, double amount)
+		{
+			if (destination == null || amount <= 0)
+			{
+				throw new OperationNotPermittedException();
+			}
+
+			if (double.IsNaN(amount) || double.IsNegativeInfinity(amount) || double.IsPositiveInfinity(amount))
+			{
+				throw new IllegalAmountException();
+			}
+
+			else
+			{
+				_it = destination;
+				_amount = amount;
+			}
+
+			
+
+		}
+
+		// Gör ett uttag från kontot
+		public void Withdraw(double amount)
+		{
+			//Om uttaget från amount är större än vad som finns sparat i amount. så kastas ett exception
+			//att det saknas pengar på kontot. Hanterar minus belopp
+			if (amount > _amount)
+			{
+				throw new InsufficientFundsException();
+			}
+
+			//Kolla så det inte är en NaN not a number
+			if (double.IsNaN(amount) || double.IsPositiveInfinity(amount) || double.IsNegativeInfinity(amount))
+			{
+				throw new IllegalAmountException();
+			}
+
+			//Annars så tar man Withdraw beloppet och tar minus på amount beloppet.            
+			_amount -= amount;    
+		}
+	}
 }

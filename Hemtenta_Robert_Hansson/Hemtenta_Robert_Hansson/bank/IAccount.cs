@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HemtentaTdd2017.bank
 {
@@ -23,6 +19,7 @@ namespace HemtentaTdd2017.bank
         // Överför ett belopp från ett konto till ett annat
         void TransferFunds(IAccount destination, double amount);
     }
+
     // Kastas när beloppet på kontot inte tillåter
     // ett uttag eller en överföring
     public class InsufficientFundsException : Exception { }
