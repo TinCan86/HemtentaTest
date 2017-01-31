@@ -8,13 +8,23 @@ namespace HemtentaTdd2017.blog
 {
     public class Blog : IBlog
     {
+        User user;
+        IAuthenticator auth;
+
+        public Blog(IAuthenticator auth)
+        {
+
+            this.auth = auth;
+        }
+
         // True om användaren är inloggad (behöver
         // inte testas separat)
         public bool UserIsLoggedIn
         {
             get
             {
-                throw new NotImplementedException();
+                //Gör ett if statement i return
+                return user != null;
             }
         }
 
@@ -24,14 +34,27 @@ namespace HemtentaTdd2017.blog
         // Kastar ett exception om User är null.
         public void LoginUser(User u)
         {
-            throw new NotImplementedException();
+            //om user är Null, så kastar vi ett exception
+            if (u == null)
+            {
+                throw new Exception();
+
+            }
+
+            //Annars sätter vi user till u.
+            user = u;
         }
 
         // Försöker logga ut en användare. Kastar
         // exception om User är null.
         public void LogoutUser(User u)
         {
-            throw new NotImplementedException();
+            if (u == null)
+            {
+                throw new Exception();
+            }
+
+            user = null;
         }
 
         // För att publicera en sida måste Page vara
@@ -42,7 +65,19 @@ namespace HemtentaTdd2017.blog
         // exception om Page har ett ogiltigt värde.
         public bool PublishPage(Page p)
         {
-            throw new NotImplementedException();
+            if (p == null || string.IsNullOrEmpty(p.Title) || string.IsNullOrEmpty(p.Content))
+            {
+                throw new Exception();
+            }
+           
+            if (user != null)
+            {
+                //todo publish:
+
+                return true;
+            }
+
+            return false;
         }
 
         // För att skicka e-post måste användaren vara

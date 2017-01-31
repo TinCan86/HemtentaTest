@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace HemtentaTdd2017.blog
 {
+
+
     public interface IBlog
     {
         // Försöker logga in en användare. Man kan
