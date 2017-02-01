@@ -6,9 +6,8 @@ namespace UnitTestEnvironment
 {
     public class BankUnitTest
     {       
-        //Account account;
         IAccount account;
-        Mock<IAccount> accountMock = new Mock<IAccount>();
+        //Mock<IAccount> accountMock = new Mock<IAccount>();
 
         //Account acnt = new IAccount { Deposit = 0, Withdraw = 0 };
 
@@ -16,7 +15,7 @@ namespace UnitTestEnvironment
 
         public BankUnitTest()
         {
-
+            IAccount account = new Account();
             //var dataSource = new Mock<IAccount>();
             //dataSource.Setup(m => m.TransferFunds(It.IsAny<IAccount>())).Returns();
             //accountMock = 
@@ -41,7 +40,7 @@ namespace UnitTestEnvironment
         [Fact]
         public void Deposit_If_Deposit_Is_Successful()
         {
-            account = new Account(accountMock.Object);
+            IAccount account = new Account();
 
             account.Deposit(25);
 
@@ -51,33 +50,18 @@ namespace UnitTestEnvironment
             Assert.Equal(expected, result);
         }
 
-        //[Fact]
-        //public void Deposit_If_Deposit_Fails()
-        //{
-        //    account = new Account(accountMock.Object);
-
-        //    account.Deposit(20);
-
-        //    var expected = 5;
-        //    var result = account.Amount;
-
-        //    Assert.Equal(expected, result);
-        //}
-
         [Fact]
         public void Deposit_If_Deposit_Dont_Go_Through_ThrowExeption()
         {
-            account = new Account(accountMock.Object);
-            
-            Assert.Throws<InsufficientFundsException>(() => account.Deposit(-10));
+            IAccount account = new Account();
 
-            
+            Assert.Throws<InsufficientFundsException>(() => account.Deposit(-10));   
         }
 
         [Fact]
         public void Deposit_Throw_Exception_If_NaN_Or_NegativeInfitive()
         {
-            account = new Account(accountMock.Object);
+            IAccount account = new Account();
 
             Assert.Throws<IllegalAmountException>(() => account.Deposit(double.NaN));
         }
@@ -90,8 +74,9 @@ namespace UnitTestEnvironment
         [Fact]
         public void Withdraw_Withdraw_Is_Successful()
         {
+            IAccount account = new Account();
             //Arrange
-            account = new Account(accountMock.Object);
+            //account = new Account(accountMock.Object);
 
             //Act
             account.Deposit(25);
@@ -106,9 +91,10 @@ namespace UnitTestEnvironment
         [Fact]
         public void Withdraw_If_Withdraw_Dont_Go_Through__Fails_ThrowExeption() 
         {
+            IAccount account = new Account();
             //Ska kasta exception
             //testade först om den kunde ta 0, då failar den. Då man inte kan ta ut 0 kr.
-            account = new Account(accountMock.Object);
+            //account = new Account(accountMock.Object);
 
             Assert.Throws<InsufficientFundsException>(() => account.Withdraw(10));
         }
@@ -116,7 +102,8 @@ namespace UnitTestEnvironment
         [Fact]
         public void Withdraw_Throw_Exception_Wrong_Input()
         {
-            account = new Account(accountMock.Object);
+            IAccount account = new Account();
+            //account = new Account(accountMock.Object);
 
             Assert.Throws<IllegalAmountException>(() => account.Withdraw(double.NegativeInfinity));
         }
@@ -124,19 +111,21 @@ namespace UnitTestEnvironment
         #endregion
 
         //TransferFunds
-        [Theory]
-        public void TransferFunds_Success(IAccount destination, double amount)
+        [Fact]
+        public void TransferFunds_Success()
         {
-            account = new Account(accountMock.Object);
-            destination = new Account(accountMock.Object);
+            //var destination = new Account();
+            IAccount account = new Account();
+            IAccount destination = new Account();
 
             destination.Deposit(250);
 
             //destination, amount
             destination.TransferFunds(account, 200);
 
+
             var result = account.Amount;
-            var expected = 100;
+            var expected = 200;
 
             //Assert
             Assert.Equal(expected, result);
@@ -145,15 +134,16 @@ namespace UnitTestEnvironment
         [Fact]
         public void TransferFunds_Failed_Cause_Wrong_Input()
         {
-            account = new Account(accountMock.Object);
-
+            //account = new Account(accountMock.Object);
+            IAccount account = new Account();
             Assert.Throws<OperationNotPermittedException>(() => account.TransferFunds(null, 0));
         }
 
         [Fact]
         public void TransferFunds_ThrowException_When_Not_Enough_Funds()
         {
-            account = new Account(accountMock.Object);
+            IAccount account = new Account();
+            //account = new Account(accountMock.Object);
 
             Assert.Throws<OperationNotPermittedException>(() => account.TransferFunds(account, 0));
 
@@ -162,7 +152,8 @@ namespace UnitTestEnvironment
         [Fact]
         public void TransferFunds_IllegalAmountException()
         {
-            account = new Account(accountMock.Object);
+            IAccount account = new Account();
+            //account = new Account(accountMock.Object);
 
             Assert.Throws<IllegalAmountException>(() => account.TransferFunds(account, double.NaN));
 

@@ -8,6 +8,8 @@ namespace HemtentaTdd2017.music
 {
     public class MusicPlayer : IMusicPlayer
     {
+        public IMediaDatabase mediaDataBase { get; set; }
+
         // Antal sånger som finns i spellistan.
         // Returnerar alltid ett heltal >= 0.
         public int NumSongsInQueue
@@ -23,13 +25,23 @@ namespace HemtentaTdd2017.music
         // sökträffar i spellistan.
         public void LoadSongs(string search)
         {
-            throw new NotImplementedException();
+            if (search.Contains(search))
+            {
+                mediaDataBase.FetchSongs(search);
+            }
+            if (string.IsNullOrEmpty(search))
+            {
+                search = "No songs found";
+            }
+                
         }
 
         // Börjar spela nästa sång i kön. Om kön är tom
         // har funktionen samma effekt som Stop().
         public void NextSong()
         {
+            
+
             throw new NotImplementedException();
         }
 

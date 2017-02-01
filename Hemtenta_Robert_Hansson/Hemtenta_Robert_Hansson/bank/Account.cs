@@ -6,11 +6,10 @@
 	public class Account : IAccount
 	{
 		double _amount;
-		IAccount _it;
 
-		public Account(IAccount it)
+		public Account()
 		{
-			_it = it;
+			
 		}
 		// behöver inte testas
 		public double Amount
@@ -51,14 +50,16 @@
 				throw new IllegalAmountException();
 			}
 
-			else
-			{
-				_it = destination;
-				_amount = amount;
-			}
+            if (_amount >= amount)
+            {
+                destination.Deposit(amount);
+                _amount -= amount;
+            }
 
-			
-
+            else if (amount > _amount)
+            {
+                throw new InsufficientFundsException();
+            }
 		}
 
 		// Gör ett uttag från kontot

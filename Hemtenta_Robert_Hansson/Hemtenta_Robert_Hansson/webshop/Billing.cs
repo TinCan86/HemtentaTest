@@ -6,17 +6,22 @@ using System.Threading.Tasks;
 
 namespace HemtentaTdd2017.webshop
 {
-    public class Webshop : IWebshop
+    public class Billing : IBilling
     {
-        public IBasket Basket
+        public decimal Balance
         {
             get
             {
                 throw new NotImplementedException();
             }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public void Checkout(IBilling billing)
+        public void Pay(decimal amount)
         {
             throw new NotImplementedException();
         }
