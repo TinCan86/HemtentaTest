@@ -1,0 +1,7 @@
+Fråga 1: 
+
+1. Förklara med egna ord vad "red, green, refactor" innebär och hur du använt det i kursen. Skriv ner svaret i en textfil som du lägger till testprojektet med namnet "fråga 1.txt".
+
+Svar: Red, green, refactor är en av TDD arbetsmetodik. Som har i första hand, ett mål att skriva testet först, se till att det misslyckas(red), för att därefter skriva så minimalt med kod för att få testet att bli grönt. Med andra ord ska testet lyckas. Därefter ska man finputsa koden och därav processen refactor. Man upprepar det tills man har fått en bra kod och ett väl utformat test. 
+
+I kursen så har det hjälpt mycket med att skriva ut testen först. Jag har arbetat på det sättet att jag läst igenom Interfacen för att se vilka metoder och properties som bör testas. För att sedan skriva ner en massa test med självförklarande namn. För att därefter implementera och börja sätta upp "min setup" inför uppgiften. Därefter har jag försökt till den mån att ta en metod i taget. Först att testa det jag anser viktigast med metoden, den primära uppgiften som metoden har. För att sedan bygga på Exception hantering via Throw testerna jag skrivit. Har testat de scenarion som jag tror kan uppstå och gjort mitt bästa med felhanteringen. 
