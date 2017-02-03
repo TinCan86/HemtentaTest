@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HemtentaTdd2017.webshop
 {
@@ -13,4 +9,8 @@ namespace HemtentaTdd2017.webshop
         void RemoveProduct(Product p, int amount);
         decimal TotalCost { get; }
     }
+
+    public class NothingToRemoveException : Exception { }
+    public class InsufficientFundsException : Exception { }
+    public class NegativFundsException : Exception { }
 }

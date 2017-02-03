@@ -16,7 +16,6 @@ namespace HemtentaTdd2017.blog
         {
             get
             {
-                //Gör ett if statement i return
                 return user != null;
             }
         }
@@ -47,13 +46,7 @@ namespace HemtentaTdd2017.blog
 
             user = null;
         }
-
-        // För att publicera en sida måste Page vara
-        // ett giltigt Page-objekt och användaren
-        // måste vara inloggad.
-        // Returnerar true om det gick att publicera,
-        // false om publicering misslyckades och
-        // exception om Page har ett ogiltigt värde.
+       
         public bool PublishPage(Page p)
         {
             if (p == null || string.IsNullOrEmpty(p.Title) || string.IsNullOrEmpty(p.Content))
@@ -64,23 +57,16 @@ namespace HemtentaTdd2017.blog
 
             if (!UserIsLoggedIn)
             {
-                //todo publish:
-
                 return false;
             }
 
             return true;
         }
 
-        // För att skicka e-post måste användaren vara
-        // inloggad och alla parametrar ha giltiga värden.
-        // Returnerar 1 om det gick att skicka mailet,
-        // 0 annars.
         public int SendEmail(string address, string caption, string body)
         {         
             if (user != null)
-            {
-                //todo publish:
+            {               
                 if (string.IsNullOrEmpty(address) || string.IsNullOrEmpty(caption) || string.IsNullOrEmpty(body))
                 {
                     return 0;

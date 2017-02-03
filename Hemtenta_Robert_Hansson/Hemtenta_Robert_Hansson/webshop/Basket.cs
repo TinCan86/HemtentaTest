@@ -1,23 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HemtentaTdd2017.webshop
 {
     public class Basket : IBasket
     {
-        IBasket basket;
-        List<Product> productList = new List<Product>();
+        //IBasket basket;
+        //List<Product> productList = new List<Product>();
         Product product;
         int amountOfProducts;
-
-
-        public Basket()
-        {
-            basket = new Basket();
-        }
+      
 
         public decimal TotalCost
         {
@@ -29,15 +20,29 @@ namespace HemtentaTdd2017.webshop
 
         public void AddProduct(Product p, int amount)
         {
+            if (p == null || amount <= 0)
+            {
+                throw new Exception();
+            }
+
             product = p;
-            amountOfProducts = amount; 
-            //basket.AddProduct(p, 4);
+            amountOfProducts += amount; 
         }
 
         public void RemoveProduct(Product p, int amount)
         {
-            productList.Remove(p);      
-            //basket.RemoveProduct(p, 1);
+            if (p == null || amount <= 0)
+            {
+                throw new NothingToRemoveException(); 
+            }
+
+            if (amount > amountOfProducts)
+            {
+                throw new NothingToRemoveException();
+            }
+
+            amountOfProducts -= amount;
+            product = p;
         }
     }
 }

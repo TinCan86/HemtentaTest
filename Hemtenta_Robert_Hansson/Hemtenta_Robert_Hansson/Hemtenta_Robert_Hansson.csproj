@@ -55,10 +55,11 @@
     <Compile Include="music\ISong.cs" />
     <Compile Include="music\ISoundMaker.cs" />
     <Compile Include="music\MusicPlayer.cs" />
+    <Compile Include="music\Song.cs" />
+    <Compile Include="music\SoundMaker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="webshop\Basket.cs" />
-    <Compile Include="webshop\Billing.cs" />
     <Compile Include="webshop\IBasket.cs" />
     <Compile Include="webshop\IBilling.cs" />
     <Compile Include="webshop\IWebShop.cs" />

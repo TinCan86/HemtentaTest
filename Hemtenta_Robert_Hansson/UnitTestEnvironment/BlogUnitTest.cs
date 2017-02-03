@@ -13,15 +13,14 @@ namespace UnitTestEnvironment
         Mock<IAuthenticator> authMock;
         User user = new User(username);
         Page validPage = new Page { Title = "Moby Dick", Content = "About a fish" };
-
-        
+   
         public BlogUnitTest()
         {
             authMock = new Mock<IAuthenticator>();
+            bg = new Blog(authMock.Object);
+
             //Sätter upp mocken att leta rätt på en user vid name username i databasen och returnerar username.
             authMock.Setup(x => x.GetUserFromDatabase(username)).Returns(new User(username));
-
-            bg = new Blog(authMock.Object);
         }  
        
         [Fact]
@@ -37,8 +36,6 @@ namespace UnitTestEnvironment
         [Fact]
         public void LoginUser_LogInFail()
         {
-            //Behövdes inte testas enligt kommentar, extra gjort bara.
-            //bg.LoginUser(null);
             Assert.False(bg.UserIsLoggedIn);
         }
 
@@ -48,12 +45,11 @@ namespace UnitTestEnvironment
             Assert.Throws<Exception>(() => bg.LoginUser(null));
         }
 
-
         [Fact]
         public void LogOut_Success_On_LogOut()
         {
             //Lägg till en log in här, för att sedan logga ut
-
+            bg.LoginUser(user);
             bg.LogoutUser(user);
 
             Assert.False(bg.UserIsLoggedIn);
@@ -65,9 +61,7 @@ namespace UnitTestEnvironment
         {
             Assert.Throws<Exception>(() => bg.LogoutUser(null));
         }
-
-
-        
+     
         [Theory]
         [InlineData(null, null)]
         [InlineData("", null)]
@@ -80,17 +74,13 @@ namespace UnitTestEnvironment
             //Kastar ett exception när någon av parametrarna är felaktiga i Page.
             Assert.Throws<Exception>(() => bg.PublishPage(page));
         }
-
-
         
         [Fact]
         public void PublishPage_PageIsNull_ThrowException()
         {
-            
             //Kastar ett exception när page objectet är Null.
             Assert.Throws<Exception>(() => bg.PublishPage(null));
         }
-
 
         [Fact]
         public void PublishPage_Object_Publish_Success()
@@ -106,13 +96,11 @@ namespace UnitTestEnvironment
 
         [Fact]
         public void PublishPage_NotLoggedIn()
-        {
-            
+        {         
             var result = bg.PublishPage(validPage);
 
             Assert.False(result);
         }
-
 
         [Theory]
         [InlineData(null, null, "")]
@@ -129,10 +117,8 @@ namespace UnitTestEnvironment
              
             var result = bg.SendEmail(address, caption, body);
 
-
             Assert.Equal(0, result);
         }
-
 
         [Theory]
         [InlineData("Adress", "Caption", "Body")]
@@ -142,7 +128,6 @@ namespace UnitTestEnvironment
 
             var result = bg.SendEmail(address, caption, body);
 
-
             Assert.Equal(1, result);
         }
 
@@ -151,7 +136,6 @@ namespace UnitTestEnvironment
         public void SendEmail_Sending_Email_With_CorrectValue_But_Not_Logged_In(string address, string caption, string body)
         {
             var result = bg.SendEmail(address, caption, body);
-
 
             Assert.Equal(0, result);
         }

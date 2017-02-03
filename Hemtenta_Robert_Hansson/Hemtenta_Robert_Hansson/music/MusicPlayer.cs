@@ -1,14 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HemtentaTdd2017.music
 {
     public class MusicPlayer : IMusicPlayer
     {
-        public IMediaDatabase mediaDataBase { get; set; }
+        ISoundMaker _soundMaker;
+        IMediaDatabase _database;
+        IList<ISong> _playList;
+
+        public MusicPlayer(IMediaDatabase database, ISoundMaker soundMaker)
+        {
+            _soundMaker = soundMaker;
+            _database = database;
+            _playList = new List<ISong>();
+
+        }
 
         // Antal sånger som finns i spellistan.
         // Returnerar alltid ett heltal >= 0.
@@ -16,57 +23,92 @@ namespace HemtentaTdd2017.music
         {
             get
             {
-                throw new NotImplementedException();
+                if (_playList.Count >= 0)
+                {
+                    return _playList.Count;
+                }
+
+                else
+                {
+                    return 0;
+                }
             }
         }
-
-        // Söker i databasen efter sångtitlar som
-        // innehåller "search" och lägger till alla
-        // sökträffar i spellistan.
+ 
         public void LoadSongs(string search)
         {
-            if (search.Contains(search))
+            if (!_database.IsConnected)
             {
-                mediaDataBase.FetchSongs(search);
+                throw new DatabaseClosedException();
             }
+
+            _database.OpenConnection();
+
+            
+            if (!string.IsNullOrEmpty(search))
+            {
+                _playList = _database.FetchSongs(search);
+            }
+
             if (string.IsNullOrEmpty(search))
             {
                 search = "No songs found";
             }
-                
+            
+            _database.CloseConnection();
         }
 
-        // Börjar spela nästa sång i kön. Om kön är tom
-        // har funktionen samma effekt som Stop().
         public void NextSong()
         {
-            
+            if (NumSongsInQueue > 0)
+            {
+                
+                _soundMaker.Play(_playList.FirstOrDefault());        
+            }
 
-            throw new NotImplementedException();
+            else
+            {
+                Stop();
+            }
+            
         }
 
-        // Returnerar strängen "Tystnad råder" om ingen
-        // sång spelas, annars "Spelar <namnet på sången>".
-        // Exempel: "Spelar Born to run".
         public string NowPlaying()
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(_soundMaker.NowPlaying))
+            {
+                return "Tystnad råder";
+            }
+
+            else
+            {
+                return string.Format("Spelar {0}", _soundMaker.NowPlaying);
+            }
+
         }
 
-        // Om ingen låt spelas för tillfället ska
-        // nästa sång i kön börja spelas. Om en låt
-        // redan spelas har funktionen ingen effekt.
         public void Play()
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(_soundMaker.NowPlaying))
+            {
+                //Använder samma som i NextSong. Så om soundmakers NowPlaying är null eller tom så sker detta.
+                _soundMaker.Play(_playList.FirstOrDefault());
+            }
         }
 
-        // Om en sång spelas ska den sluta spelas.
-        // Sången ligger kvar i spellistan. Om ingen
-        // sång spelas har funktionen ingen effekt.
         public void Stop()
         {
-            throw new NotImplementedException();
+            _soundMaker.Stop();
+        }
+
+        public void OpenConnection()
+        {
+            if (_database.IsConnected)
+            {
+                throw new DatabaseAlreadyOpenException();
+            }
+
+            _database.OpenConnection();
         }
     }
 }

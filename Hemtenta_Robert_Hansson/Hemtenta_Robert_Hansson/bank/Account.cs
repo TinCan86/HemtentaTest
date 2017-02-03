@@ -1,9 +1,6 @@
 ﻿namespace HemtentaTdd2017.bank
 {
-	// Representerar ett konto. Implementera den här!
-	// Obs: i vanliga fall ska datatypen decimal användas
-	// i stället för double när man hanterar pengar.
-	public class Account : IAccount
+    public class Account : IAccount
 	{
 		double _amount;
 
@@ -11,7 +8,6 @@
 		{
 			
 		}
-		// behöver inte testas
 		public double Amount
 		{
 			get
@@ -20,10 +16,8 @@
 			}
 		}
 
-		// Sätter in ett belopp på kontot
 		public void Deposit(double amount)
 		{
-			//Deposit amountet blir samma som amount.   
 			if(amount <= 0)
 			{
 				throw new InsufficientFundsException();
@@ -37,7 +31,6 @@
 			_amount = amount;
 		}
 
-		// Överför ett belopp från ett konto till ett annat
 		public void TransferFunds(IAccount destination, double amount)
 		{
 			if (destination == null || amount <= 0)
@@ -62,7 +55,6 @@
             }
 		}
 
-		// Gör ett uttag från kontot
 		public void Withdraw(double amount)
 		{
 			//Om uttaget från amount är större än vad som finns sparat i amount. så kastas ett exception
